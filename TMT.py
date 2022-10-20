@@ -59,7 +59,7 @@ class subject:
 		self.trail_input = self.trail.get()
 		self.frame.destroy()
 		self.info.destroy()
-		with open(self.ID + ".csv","w") as F:
+		with open(f"{self.ID}.csv", "w") as F:
 			F.write("Id,Gender,Age,Date,Trail,Condition,Level,Tag,Time,Correct\n")
 		read_trail_input(self.trail_input)
 		reset_canvas()
@@ -70,8 +70,8 @@ class node:
 	
 	def __init__(self, x, y, tag):
 		self.circle = canvas.create_oval(x, y, x+node_size, y+node_size, width=1, fill="white")
-		self.content = canvas.create_text(x+node_size/2, y+node_size/2, fill="black", \
-										  font="Times "+str(int(node_size*0.4)), text=tag)
+		self.content = canvas.create_text(x + node_size / 2, y + node_size / 2, fill="black", font=f"Times {int(node_size * 0.4)}", text=tag)
+
 		self.tag = tag
 		canvas.tag_bind(self.circle, '<ButtonPress-1>', self.register)
 		canvas.tag_bind(self.content, '<ButtonPress-1>', self.register)
@@ -81,21 +81,21 @@ class node:
 		global node_i
 		expected_now = node_sequence[level][node_i]
 		time_elapsed = time.time() - start_time
-		
-		if self.tag == expected_now:			
+
+		if self.tag == expected_now:		
 			x, y = event.x, event.y
 			if canvas.old_coords:
 				x1, y1 = canvas.old_coords
 				canvas.create_line(x, y, x1, y1)
 			canvas.old_coords = x, y
-			with open(S.ID + ".csv","a") as F:
+			with open(f"{S.ID}.csv", "a") as F:
 				F.write("%s,%s,%s,%s,%s,%s,%d,%s,%s,%d\n" % (S.ID, S.GENDER, S.AGE, S.DATE, S.trail_input, S.CONDITION, \
-														 level, self.tag, time_elapsed, 1))
+															 level, self.tag, time_elapsed, 1))
 			node_i = node_i + 1
 		else:
-			with open(S.ID + ".csv","a") as F:
+			with open(f"{S.ID}.csv", "a") as F:
 				F.write("%s,%s,%s,%s,%s,%s,%d,%s,%s,%d\n" % (S.ID, S.GENDER, S.AGE, S.DATE, S.trail_input, S.CONDITION, \
-														 level, self.tag, time_elapsed, 0))
+															 level, self.tag, time_elapsed, 0))
 		if node_i == len(node_sequence[level]):
 			next_level()
 			
@@ -105,22 +105,19 @@ def close(event):
 
 def read_trail_input(NAME):
 	global container_size, node_size, node_sequence, messages, end_message, node_sequence_pos
-	with open('cfg/'+NAME) as f:
+	with open(f'cfg/{NAME}') as f:
 		lines = f.read().splitlines()
 		container_size = [int(lines[0]), int(lines[1])]
 		node_size = int(lines[2])
 		n_levels = int(lines[3])
 
-		node_sequence = []
-		for l in lines[4:4 + n_levels]:
-			node_sequence.append(l.split(" "))
-
+		node_sequence = [l.split(" ") for l in lines[4:4 + n_levels]]
 		messages = []
 		for l in lines[4 + n_levels:4 + 2 * n_levels]:
 			messages.append(l.replace('\\n', '\n'))
 
 		end_message = lines[4 + 2 * n_levels].replace('\\n', '\n')
-		
+
 		node_sequence_pos = []
 		for l in lines[4 + 2 * n_levels + 2:]:
 			node_sequence_pos.append(list(map(int, l.split(" "))))
