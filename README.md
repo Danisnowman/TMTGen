@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/208064496.svg)](https://zenodo.org/badge/latestdoi/208064496)
+<!-- [![DOI](https://zenodo.org/badge/208064496.svg)](https://zenodo.org/badge/latestdoi/208064496) -->
 
 # TMTGen
 
@@ -68,8 +68,8 @@ The output data comes in long format. Each line is produced at each mouse click 
 
 If you use TMTGen please cite the program with:
 
-David Sousa. (2019, September 12). davidnsousa/TMTGen: First release of TMTGen (Version v1.0.0). Zenodo. http://doi.org/10.5281/zenodo.3406466
+<!-- David Sousa. (2019, September 12). davidnsousa/TMTGen: First release of TMTGen (Version v1.0.0). Zenodo. http://doi.org/10.5281/zenodo.3406466 -->
 
-## Contact
+<!-- ## Contact
 
-For further questions please contact me from https://davidnsousa.github.io/.
+For further questions please contact me from https://davidnsousa.github.io/. -->
